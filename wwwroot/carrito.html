@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrito - MiTienda</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="main-header">
+  <div class="logo">🛒 MiTienda</div>
+  <nav><a id="adminLink" href="admin.html" style="display:none;">Admin</a>
+    <a href="index.html">Inicio</a>
+    <a href="carrito.html">🛍️ Carrito <span id="cartCount" class="badge">0</span></a>
+    <span id="userInfo" class="user-info"></span>
+    <button class="btn-tema" onclick="toggleTema()"><span id="iconoTema">🌙</span></button>
+    <button id="logoutBtn" class="btn-logout">Salir</button>
+  </nav>
+</header>
+<section class="carrito-section">
+  <h2>Tu Carrito de Compras</h2>
+  <div id="carritoContainer"></div>
+  <div id="carritoResumen" class="carrito-resumen" style="display:none;">
+    <h3>Total: <span id="totalPrecio">$0.00</span></h3>
+    <button id="btnComprar" class="btn-primary">Finalizar Compra</button>
+  </div>
+</section>
+<footer class="main-footer"><p>&copy; 2024 MiTienda</p></footer>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/carrito.js"></script>
+<script>
+function toggleTema(){document.body.classList.toggle('dark');const o=document.body.classList.contains('dark');localStorage.setItem('tema',o?'oscuro':'claro');document.getElementById('iconoTema').textContent=o?'☀️':'🌙';}
+if(localStorage.getItem('tema')==='oscuro'){document.body.classList.add('dark');document.getElementById('iconoTema').textContent='☀️';}
+function renderCarrito(){
+  const c=document.getElementById('carritoContainer');
+  const r=document.getElementById('carritoResumen');
+  const items=JSON.parse(localStorage.getItem('carrito')||'[]');
+  if(items.length===0){
+    c.innerHTML='<div class="carrito-vacio"><p>🛒 Tu carrito está vacío</p><a href="index.html" class="btn-primary" style="display:inline-block;text-decoration:none;padding:12px 30px;max-width:250px;margin:20px auto 0;">Ver productos</a></div>';
+    r.style.display='none';return;
+  }
+  c.innerHTML=items.map(i=>`<div class="carrito-item"><div class="img">${i.emoji}</div><div class="info"><h4>${i.nombre}</h4><div class="precio">$${Number(i.precio).toFixed(2)} × ${i.cantidad} = $${(i.precio*i.cantidad).toFixed(2)}</div></div><button class="btn-eliminar" onclick="eliminar(${i.id})">🗑️</button></div>`).join('');
+  const total=items.reduce((s,i)=>s+i.precio*i.cantidad,0);
+  r.style.display='block';
+  document.getElementById('totalPrecio').textContent='$'+total.toFixed(2);
+}
+function eliminar(id){let c=JSON.parse(localStorage.getItem('carrito')||'[]');c=c.filter(i=>i.id!==id);localStorage.setItem('carrito',JSON.stringify(c));actualizarContador();renderCarrito();}
+document.getElementById('btnComprar').addEventListener('click',()=>{alert('🎉 ¡Gracias por tu compra!');localStorage.removeItem('carrito');actualizarContador();renderCarrito();});
+document.addEventListener('DOMContentLoaded',renderCarrito);
+</script>
+</body>
+</html>
+

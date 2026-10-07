@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administración - MiTienda</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="main-header">
+  <div class="logo">🛒 MiTienda</div>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="carrito.html">🛍️ Carrito <span id="cartCount" class="badge">0</span></a>
+    <span id="userInfo" class="user-info"></span>
+    <button id="logoutBtn" class="btn-logout">Salir</button>
+  </nav>
+</header>
+
+<main class="carrito-section">
+  <h2>Administración de productos</h2>
+
+  <form id="productoForm" class="auth-card" style="max-width: 700px; margin: 0 auto 30px; text-align: left; padding: 30px;">
+    <input type="hidden" id="productoId">
+    <div class="input-group">
+      <label for="productoNombre">Nombre</label>
+      <input type="text" id="productoNombre" required>
+    </div>
+    <div class="input-group">
+      <label for="productoDescripcion">Descripción</label>
+      <input type="text" id="productoDescripcion" required>
+    </div>
+    <div class="input-group">
+      <label for="productoPrecio">Precio</label>
+      <input type="number" id="productoPrecio" min="0" step="0.01" required>
+    </div>
+    <div class="input-group">
+      <label for="productoEmoji">Emoji</label>
+      <input type="text" id="productoEmoji" value="📦" maxlength="3">
+    </div>
+    <button type="submit" class="btn-primary">Guardar producto</button>
+    <button type="button" id="cancelarEdicion" class="btn-logout" style="margin-top: 10px; display: none;">Cancelar</button>
+    <p id="productoError" class="error-msg"></p>
+  </form>
+
+  <div id="productosAdminList" class="productos-grid"></div>
+</main>
+
+<footer class="main-footer"><p>&copy; 2024 MiTienda</p></footer>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/carrito.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

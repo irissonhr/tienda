@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: tienda
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__DefaultConnection
+        value: Data Source=/tmp/tienda.db
+      - key: Jwt__Issuer
+        value: TiendaApp
+      - key: Jwt__Audience
+        value: TiendaAppClientes
+      - key: Jwt__Key
+        sync: false
+      - key: Admin__Email
+        sync: false
+      - key: Admin__Password
+        sync: false

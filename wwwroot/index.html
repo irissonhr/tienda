@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiTienda - Catálogo</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="main-header">
+  <div class="logo">🛒 MiTienda</div>
+  <nav><a id="adminLink" href="admin.html" style="display:none;">Admin</a>
+    <a href="index.html">Inicio</a>
+    <a href="carrito.html">🛍️ Carrito <span id="cartCount" class="badge">0</span></a>
+    <span id="userInfo" class="user-info"></span>
+    <button class="btn-tema" onclick="toggleTema()"><span id="iconoTema">🌙</span></button>
+    <button id="logoutBtn" class="btn-logout">Salir</button>
+  </nav>
+</header>
+<section class="hero">
+  <h1>Bienvenido a MiTienda</h1>
+  <p>Los mejores productos al mejor precio</p>
+</section>
+<section class="productos-section">
+  <h2>Nuestros Productos</h2>
+  <div id="productosGrid" class="productos-grid"></div>
+</section>
+<footer class="main-footer"><p>&copy; 2024 MiTienda</p></footer>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/productos.js"></script>
+<script src="js/carrito.js"></script>
+<script>
+function toggleTema(){document.body.classList.toggle('dark');const o=document.body.classList.contains('dark');localStorage.setItem('tema',o?'oscuro':'claro');document.getElementById('iconoTema').textContent=o?'☀️':'🌙';}
+if(localStorage.getItem('tema')==='oscuro'){document.body.classList.add('dark');document.getElementById('iconoTema').textContent='☀️';}
+</script>
+</body>
+</html>
+

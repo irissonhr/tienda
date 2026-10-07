@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - MiTienda</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<button id="btnTemaFlotante" class="btn-tema-flotante" onclick="toggleTema()">🌙</button>
+<div class="auth-body">
+  <div class="auth-container">
+    <div class="auth-card">
+      <h1>🛒 MiTienda</h1>
+      <h2>Iniciar Sesión</h2>
+      <form id="loginForm">
+        <div class="input-group">
+          <label>Correo electrónico</label>
+          <input type="email" id="loginEmail" required placeholder="tu@correo.com">
+        </div>
+        <div class="input-group">
+          <label>Contraseña</label>
+          <input type="password" id="loginPassword" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-primary">Entrar</button>
+      </form>
+      <p class="auth-link">¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+      <p id="loginError" class="error-msg"></p>
+    </div>
+  </div>
+</div>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+function toggleTema(){document.body.classList.toggle('dark');localStorage.setItem('tema',document.body.classList.contains('dark')?'oscuro':'claro');document.getElementById('btnTemaFlotante').textContent=document.body.classList.contains('dark')?'☀️':'🌙';}
+if(localStorage.getItem('tema')==='oscuro'){document.body.classList.add('dark');document.getElementById('btnTemaFlotante').textContent='☀️';}
+</script>
+</body>
+</html>
