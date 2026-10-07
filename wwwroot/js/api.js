@@ -15,6 +15,15 @@ async function apiFetch(endpoint, options = {}) {
     const text = await res.text();
     const data = text ? JSON.parse(text) : {};
 
+    if (res.status === 401 && token) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuario");
+
+        if (window.location.pathname.split('/').pop() !== "login.html") {
+            window.location.replace("login.html");
+        }
+    }
+
     if (!res.ok) throw new Error(data.mensaje || "Error en la petición");
     return data;
 }
