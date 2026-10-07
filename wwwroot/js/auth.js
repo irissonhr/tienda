@@ -55,8 +55,9 @@ if (loginForm) {
 }
 
 const pagina = window.location.pathname.split('/').pop();
-if (pagina !== 'login.html' && pagina !== 'registro.html' && pagina !== '') {
-    if (!localStorage.getItem('token')) {
+if (pagina === 'admin.html') {
+    const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+    if (!localStorage.getItem('token') || !usuario || !(usuario.esAdmin || usuario.rol === 'Admin')) {
         window.location.href = 'login.html';
     }
 }
@@ -66,8 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const userInfo = document.getElementById('userInfo');
     const logoutBtn = document.getElementById('logoutBtn');
     const adminLink = document.getElementById('adminLink');
+    const loginLink = document.getElementById('loginLink');
+    const registerLink = document.getElementById('registerLink');
 
     if (userInfo && usuario) userInfo.textContent = `👤 ${usuario.nombre}`;
+    if (logoutBtn) logoutBtn.style.display = usuario ? 'inline-block' : 'none';
+    if (loginLink) loginLink.style.display = usuario ? 'none' : 'inline';
+    if (registerLink) registerLink.style.display = usuario ? 'none' : 'inline';
     if (adminLink && usuario && (usuario.esAdmin || usuario.rol === 'Admin')) {
         adminLink.style.display = 'inline';
     }
