@@ -35,11 +35,11 @@ builder.Services.AddCors(options =>
 var configuredKey = builder.Configuration["Jwt:Key"];
 if (string.IsNullOrWhiteSpace(configuredKey))
 {
-    if (!builder.Environment.IsDevelopment())
-        throw new InvalidOperationException("Falta configurar Jwt:Key como variable de entorno.");
-
     configuredKey = Convert.ToBase64String(RandomNumberGenerator.GetBytes(48));
     builder.Configuration["Jwt:Key"] = configuredKey;
+    Console.Error.WriteLine(
+        "WARNING: Jwt:Key is not configured. A temporary signing key was generated; " +
+        "existing login tokens will stop working after a restart. Set Jwt__Key for stable sessions.");
 }
 
 var key = Encoding.UTF8.GetBytes(configuredKey);
@@ -94,8 +94,10 @@ using (var scope = app.Services.CreateScope())
     var adminPassword = builder.Configuration["Admin:Password"];
     if (string.IsNullOrWhiteSpace(adminEmail) || string.IsNullOrWhiteSpace(adminPassword))
     {
-        if (!app.Environment.IsDevelopment())
-            throw new InvalidOperationException("Configura Admin:Email y Admin:Password como variables de entorno.");
+        Console.Error.WriteLine(
+            "WARNING: Admin:Email or Admin:Password is not configured. " +
+            "The storefront will start, but no admin account will be created. " +
+            "Set Admin__Email and Admin__Password to enable product management.");
     }
     else
     {
