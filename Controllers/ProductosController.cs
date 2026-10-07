@@ -14,6 +14,7 @@ public class ProductosController : ControllerBase
     public ProductosController(AppDbContext db) => _db = db;
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Get()
     {
         var productos = await _db.Productos.OrderBy(p => p.Id).ToListAsync();
@@ -21,6 +22,7 @@ public class ProductosController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> GetById(int id)
     {
         var producto = await _db.Productos.FindAsync(id);

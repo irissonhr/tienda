@@ -55,15 +55,26 @@ if (loginForm) {
 }
 
 const pagina = window.location.pathname.split('/').pop();
-if (pagina === 'admin.html') {
-    const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
-    if (!localStorage.getItem('token') || !usuario || !(usuario.esAdmin || usuario.rol === 'Admin')) {
+const token = localStorage.getItem('token');
+let usuarioActual = null;
+try {
+    usuarioActual = JSON.parse(localStorage.getItem('usuario') || 'null');
+} catch (error) {
+    localStorage.removeItem('usuario');
+}
+
+if (pagina === 'index.html' || pagina === '' || pagina === 'carrito.html') {
+    if (!token) {
+        window.location.replace('login.html');
+    }
+} else if (pagina === 'admin.html') {
+    if (!token || !usuarioActual || !(usuarioActual.esAdmin || usuarioActual.rol === 'Admin')) {
         window.location.href = 'login.html';
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+    const usuario = usuarioActual;
     const userInfo = document.getElementById('userInfo');
     const logoutBtn = document.getElementById('logoutBtn');
     const adminLink = document.getElementById('adminLink');
